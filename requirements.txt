@@ -1,0 +1,4 @@
+# No external dependencies required
+# Python standard library provides all needed modules:
+# - tkinter
+# - sqlite3
