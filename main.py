@@ -5,6 +5,7 @@ Pipes Project - Main Entry Point
 import tkinter as tk
 from ui.app import Application
 from database import initialize_database
+from languages import language_manager
 
 def main():
     """Main entry point for the application"""
@@ -13,6 +14,8 @@ def main():
     
     # Create root window
     root = tk.Tk()
+    if language_manager.is_rtl:
+        root.tk.call("set", "rtl", "1")  # Enable RTL for the root window
     root.title("Pipes - Project Management")
     root.geometry("800x600")
     

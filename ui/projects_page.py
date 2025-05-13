@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from ui.project_form import ProjectForm
 import database
+from languages import language_manager
 
 class ProjectsPage(tk.Frame):
     """Projects page showing all projects with options to add, edit, and delete"""
@@ -27,11 +28,11 @@ class ProjectsPage(tk.Frame):
         button_frame.pack(fill=tk.X, padx=5, pady=5)
         
         # Add project button
-        add_button = ttk.Button(button_frame, text="Add Project", command=self.add_project)
+        add_button = ttk.Button(button_frame, text=language_manager.translate("add_project"), command=self.add_project)
         add_button.pack(side=tk.LEFT, padx=5, pady=5)
         
         # Refresh button
-        refresh_button = ttk.Button(button_frame, text="Refresh", command=self.load_projects)
+        refresh_button = ttk.Button(button_frame, text=language_manager.translate("refresh"), command=self.load_projects)
         refresh_button.pack(side=tk.LEFT, padx=5, pady=5)
         
         # Projects treeview
@@ -48,9 +49,9 @@ class ProjectsPage(tk.Frame):
         
         # Configure column headings
         self.tree.heading("id", text="ID")
-        self.tree.heading("name", text="Project Name")
-        self.tree.heading("location", text="Location")
-        self.tree.heading("created_at", text="Created At")
+        self.tree.heading("name", text=language_manager.translate("project_name"))
+        self.tree.heading("location", text=language_manager.translate("location"))
+        self.tree.heading("created_at", text=language_manager.translate("created_at"))
         
         # Configure column widths
         self.tree.column("id", width=50)
@@ -67,6 +68,10 @@ class ProjectsPage(tk.Frame):
         # Bind events
         self.tree.bind("<Double-1>", self.on_item_double_click)
         self.tree.bind("<ButtonRelease-3>", self.on_right_click)
+        
+        if language_manager.is_rtl:
+            self.tree_frame.tk.call("tk", "scaling", 1.0)  # Adjust scaling for RTL
+            self.tree_frame.tk.call("set", "rtl", "1")  # Enable RTL
         
     def load_projects(self):
         """Load projects from database and display in treeview"""

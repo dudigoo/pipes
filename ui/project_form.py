@@ -4,6 +4,7 @@ Project form for adding or editing projects
 import tkinter as tk
 from tkinter import ttk, messagebox
 import database
+from languages import language_manager
 
 class ProjectForm(tk.Toplevel):
     """Form for adding or editing projects"""
@@ -38,12 +39,12 @@ class ProjectForm(tk.Toplevel):
         main_frame.pack(fill=tk.BOTH, expand=True)
         
         # Project name
-        ttk.Label(main_frame, text="Project Name:").grid(row=0, column=0, sticky=tk.W, pady=10)
+        ttk.Label(main_frame, text=language_manager.translate("project_name")).grid(row=0, column=0, sticky=tk.W, pady=10)
         self.name_entry = ttk.Entry(main_frame, width=30)
         self.name_entry.grid(row=0, column=1, sticky=tk.W+tk.E, pady=10)
         
         # Project location
-        ttk.Label(main_frame, text="Location:").grid(row=1, column=0, sticky=tk.W, pady=10)
+        ttk.Label(main_frame, text=language_manager.translate("location")).grid(row=1, column=0, sticky=tk.W, pady=10)
         self.location_entry = ttk.Entry(main_frame, width=30)
         self.location_entry.grid(row=1, column=1, sticky=tk.W+tk.E, pady=10)
         
@@ -52,10 +53,10 @@ class ProjectForm(tk.Toplevel):
         button_frame.grid(row=3, column=0, columnspan=2, pady=20)
         
         # Save button
-        ttk.Button(button_frame, text="Save", command=self.save_project).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text=language_manager.translate("save"), command=self.save_project).pack(side=tk.LEFT, padx=5)
         
         # Cancel button
-        ttk.Button(button_frame, text="Cancel", command=self.destroy).pack(side=tk.LEFT, padx=5)
+        ttk.Button(button_frame, text=language_manager.translate("cancel"), command=self.destroy).pack(side=tk.LEFT, padx=5)
         
         # If editing existing project, populate fields
         if self.project:
@@ -64,6 +65,10 @@ class ProjectForm(tk.Toplevel):
             
         # Set focus to name entry
         self.name_entry.focus()
+
+        if language_manager.is_rtl:
+            main_frame.tk.call("tk", "scaling", 1.0)  # Adjust scaling for RTL
+            main_frame.tk.call("set", "rtl", "1")  # Enable RTL
         
     def save_project(self):
         """Save the project (add new or update existing)"""

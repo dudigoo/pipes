@@ -4,6 +4,7 @@ Main application window for Pipes
 import tkinter as tk
 from tkinter import ttk
 from ui.projects_page import ProjectsPage
+from languages import language_manager
 
 class Application:
     """Main application class handling UI components"""
@@ -14,6 +15,7 @@ class Application:
         Args:
             root: Tkinter root window
         """
+        root.title(language_manager.translate("app_title"))
         self.root = root
         self.setup_ui()
         
