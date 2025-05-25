@@ -5,6 +5,10 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import database
 from languages import language_manager
+#from reportlab.lib.pagesizes import A4
+#from reportlab.pdfgen import canvas
+from fpdf import FPDF
+import os
 
 class ProjectForm(tk.Toplevel):
     """Form for adding or editing projects"""
@@ -57,6 +61,9 @@ class ProjectForm(tk.Toplevel):
         
         # Cancel button
         ttk.Button(button_frame, text=language_manager.translate("cancel"), command=self.destroy).pack(side=tk.LEFT, padx=5)
+        
+        # Print button
+        ttk.Button(button_frame, text=language_manager.translate("Print"), command=self.on_print).pack(side=tk.LEFT, padx=5)
         
         # If editing existing project, populate fields
         if self.project:
@@ -119,3 +126,50 @@ class ProjectForm(tk.Toplevel):
         
         # Set geometry
         self.geometry(f"+{x}+{y}")
+
+    def get_current_project_details(self):
+        """Return the current project's details as a dict"""
+        if self.project:
+            return {
+                "Name": self.project.get("name", ""),
+                "Date": self.project.get("created_at", ""),
+                "Location": self.project.get("location", ""),
+                "ID": self.project.get("id", "")
+            }
+        return {}
+
+    def print_project(self, project_details):
+        """Generate and open PDF for the given project details using fpdf"""
+        filename = "project_details.pdf"
+        pdf = FPDF()
+        pdf.add_page()
+        try:
+            # Try to use DejaVu font for Unicode/hebrew support if available
+            pdf.add_font('DejaVu', '', 'DejaVuSans.ttf', uni=True)
+            pdf.set_font('DejaVu', '', 16)
+        except Exception:
+            pdf.set_font("Arial", size=16)
+        pdf.cell(0, 10, "Project Details", ln=True)
+        try:
+            pdf.set_font('DejaVu', '', 12)
+        except Exception:
+            pdf.set_font("Arial", size=12)
+        for key, value in project_details.items():
+            pdf.cell(0, 10, f"{key}: {value}", ln=True)
+        pdf.output(filename)
+        try:
+            # Use platform-independent way to open PDF
+            if os.name == "nt":
+                os.startfile(filename)
+            elif os.name == "posix":
+                import subprocess
+                subprocess.run(["xdg-open", filename], check=False)
+            else:
+                messagebox.showinfo("Info", f"PDF saved as {filename}")
+        except Exception as e:
+            messagebox.showerror("שגיאה", f"שגיאה ביצירת PDF:\n{e}")
+
+    def on_print(self):
+        """Handle the print button click"""
+        details = self.get_current_project_details()
+        self.print_project(details)
