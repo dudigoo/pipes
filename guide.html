@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מדריך למשתמש - מערכת בדיקת צנרת | Pipeline Inspector User Guide</title>
+    <style>
+        /* RTL and Hebrew font support */
+        body {
+            font-family: 'Segoe UI', 'Arial Hebrew', Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Headers */
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 8px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #2980b9;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #7f8c8d;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .toc ul {
+            list-style-type: none;
+            padding-right: 0;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        .toc a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+            color: #3498db;
+        }
+
+        /* Lists */
+        ul, ol {
+            padding-right: 25px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        /* Code blocks */
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+        }
+
+        code {
+            background: #ecf0f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+        }
+
+        /* Info boxes */
+        .info-box {
+            background: #e8f4fd;
+            border-right: 4px solid #3498db;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .warning-box {
+            background: #fef9e7;
+            border-right: 4px solid #f39c12;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .error-box {
+            background: #fdedec;
+            border-right: 4px solid #e74c3c;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            direction: rtl;
+        }
+
+        th, td {
+            border: 1px solid #bdc3c7;
+            padding: 12px;
+            text-align: right;
+        }
+
+        th {
+            background: #34495e;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        /* Buttons and UI elements */
+        .button {
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 2px;
+        }
+
+        .button-success {
+            background: #27ae60;
+        }
+
+        .button-warning {
+            background: #f39c12;
+        }
+
+        .button-danger {
+            background: #e74c3c;
+        }
+
+        /* Icons */
+        .icon {
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .container {
+                box-shadow: none;
+                max-width: none;
+            }
+        }
+
+        /* Navigation */
+        .nav-top {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #34495e;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        .nav-top a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-top a:hover {
+            text-decoration: underline;
+        }
+
+        /* Section separators */
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to left, #3498db, #2980b9);
+            margin: 40px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-top">
+        <a href="#top">🔝 חזרה למעלה</a>
+    </div>
+
+    <div class="container">
+        <h1 id="top">מדריך למשתמש - מערכת בדיקת צנרת</h1>
+        <h2>Pipeline Inspector User Guide</h2>
+
+        <hr>
+
+        <div class="toc">
+            <h3>תוכן עניינים</h3>
+            <ul>
+                <li><a href="#intro">🎯 מבוא</a></li>
+                <li><a href="#getting-started">🚀 התחלת עבודה</a></li>
+                <li><a href="#project-management">📋 ניהול פרויקטים</a></li>
+                <li><a href="#participant-management">👥 ניהול משתתפים</a></li>
+                <li><a href="#section-management">🔧 ניהול קטעים</a></li>
+                <li><a href="#event-recording">📝 רישום אירועים</a></li>
+                <li><a href="#video-viewing">🎥 צפייה בווידאו</a></li>
+                <li><a href="#report-generation">📄 יצירת דוחות</a></li>
+                <li><a href="#system-settings">⚙️ הגדרות מערכת</a></li>
+                <li><a href="#troubleshooting">🛠️ פתרון בעיות</a></li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <h2 id="intro">🎯 מבוא</h2>
+
+        <div class="info-box">
+            <strong>מערכת Pipeline Inspector</strong> היא תוכנה מקצועית לניתוח וניהול בדיקות צנרת. המערכת מיועדת למהנדסים המבצעים בדיקות רובוט בצנרת ביוב ומים.
+        </div>
+
+        <h3>יכולות עיקריות:</h3>
+        <ul>
+            <li><strong>ניהול פרויקטים</strong> - יצירה ועריכה של פרויקטי בדיקה</li>
+            <li><strong>תיעוד משתתפים</strong> - ניהול לקוחות, מנהלים ומפעילים</li>
+            <li><strong>ניתוח קטעי צנרת</strong> - תיעוד מפורט של כל קטע</li>
+            <li><strong>רישום אירועים</strong> - תיעוד ליקויים ובעיות שנמצאו</li>
+            <li><strong>ניתוח וידאו</strong> - צפייה ובדיקה של וידאו מהרובוט</li>
+            <li><strong>יצירת דוחות</strong> - הפקת דוחות PDF מקצועיים</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="getting-started">🚀 התחלת עבודה</h2>
+
+        <h3>רישוי המערכת</h3>
+        <div class="warning-box">
+            <strong>חשוב:</strong> המערכת דורשת רישיון תקף לפני השימוש!
+        </div>
+
+        <ol>
+            <li>הרץ את התוכנה לראשונה</li>
+            <li>העתק את מזהה החומרה (Hardware ID) שמוצג</li>
+            <li>שלח למחלקת התמיכה לקבלת רישיון</li>
+            <li>הכנס את קוד הרישיון שהתקבל</li>
+        </ol>
+
+        <h3>הפעלת המערכת</h3>
+        <ol>
+            <li>פתח את קובץ <code>pipe_inspect.exe</code></li>
+            <li>המתן להטענת המערכת</li>
+            <li>יוצג המסך הראשי עם רשימת הפרויקטים</li>
+        </ol>
+
+        <hr>
+
+        <h2 id="project-management">📋 ניהול פרויקטים</h2>
+
+        <h3>יצירת פרויקט חדש</h3>
+        <ol>
+            <li>לחץ על כפתור <span class="button">פרויקט חדש</span> במסך הראשי</li>
+            <li>מלא את הפרטים הנדרשים:</li>
+        </ol>
+
+        <table>
+            <tr>
+                <th>שדה</th>
+                <th>תיאור</th>
+                <th>חובה</th>
+            </tr>
+            <tr>
+                <td>שם הפרויקט</td>
+                <td>שם מזהה לפרויקט</td>
+                <td>✅ כן</td>
+            </tr>
+            <tr>
+                <td>מספר פרויקט</td>
+                <td>מספר פנימי לזיהוי</td>
+                <td>❌ לא</td>
+            </tr>
+            <tr>
+                <td>תיאור הפרויקט</td>
+                <td>תיאור כללי</td>
+                <td>❌ לא</td>
+            </tr>
+            <tr>
+                <td>תאריך התחלה</td>
+                <td>פורמט: יום/חודש/שנה</td>
+                <td>❌ לא</td>
+            </tr>
+            <tr>
+                <td>תאריך סיום</td>
+                <td>פורמט: יום/חודש/שנה</td>
+                <td>❌ לא</td>
+            </tr>
+            <tr>
+                <td>עיר ואתר</td>
+                <td>מיקום הפרויקט</td>
+                <td>❌ לא</td>
+            </tr>
+        </table>
+
+        <h3>הוספת תמונה לפרויקט</h3>
+        <ol>
+            <li>במסך עריכת הפרויקט, לחץ על סימן ה<span class="button button-success">+</span></li>
+            <li>בחר תמונה מהמחשב</li>
+            <li>התמונה תוצג כתמונה קטנה</li>
+            <li>ניתן לסובב או למחוק התמונה</li>
+        </ol>
+
+        <h3>פעולות זמינות בפרויקט:</h3>
+        <ul>
+            <li><span class="button">משתתפים</span> - ניהול צוות הפרויקט</li>
+            <li><span class="button">קטעים</span> - ניהול קטעי הצנרת</li>
+            <li><span class="button">הדפסה</span> - יצירת דוח מקצועי</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="participant-management">👥 ניהול משתתפים</h2>
+
+        <h3>סוגי משתתפים</h3>
+        <div class="info-box">
+            המערכת מחלקת משתתפים לשלושה סוגים:
+            <ul>
+                <li><strong>לקוחות</strong> - בעלי הפרויקט</li>
+                <li><strong>מנהלים</strong> - מנהלי הפרויקט</li>
+                <li><strong>מפעילים</strong> - מבצעי הבדיקה</li>
+            </ul>
+        </div>
+
+        <h3>הוספת משתתף חדש</h3>
+        <ol>
+            <li>במסך הפרויקט, לחץ <span class="button">משתתפים</span></li>
+            <li>בחר את הסוג המתאים (לקוח/מנהל/מפעיל)</li>
+            <li>לחץ <span class="button button-success">הוסף</span></li>
+            <li>מלא את הפרטים הנדרשים</li>
+        </ol>
+
+        <h4>פרטי משתתף:</h4>
+        <ul>
+            <li><strong>שם</strong> (חובה)</li>
+            <li><strong>חברה</strong></li>
+            <li><strong>טלפון ראשי ומשני</strong></li>
+            <li><strong>כתובת אימייל</strong></li>
+            <li><strong>כתובת: רחוב ועיר</strong></li>
+        </ul>
+
+        <h3>הוספת לוגו לחברה</h3>
+        <ol>
+            <li>במסך עריכת משתתף, לחץ <span class="button">העלה לוגו</span></li>
+            <li>בחר קובץ תמונה</li>
+            <li>הלוגו יוצג ויישמר עם פרטי החברה</li>
+        </ol>
+
+        <h3>שיוך משתתפים לפרויקט</h3>
+        <ol>
+            <li>במסך המשתתפים, סמן ✓ ליד המשתתפים הרלוונטיים</li>
+            <li>לחץ <span class="button button-success">שמור</span> כדי לשייך למפרויקט</li>
+        </ol>
+
+        <hr>
+
+        <h2 id="section-management">🔧 ניהול קטעים</h2>
+
+        <div class="info-box">
+            <strong>המסך מחולק לארבעה חלקים:</strong>
+            <ol>
+                <li><strong>רשימת קטעים</strong> (שמאל עליון)</li>
+                <li><strong>מעקב אירועים</strong> (שמאל תחתון)</li>
+                <li><strong>גרף הצנרת</strong> (ימין עליון)</li>
+                <li><strong>נגן וידאו</strong> (ימין תחתון)</li>
+            </ol>
+        </div>
+
+        <h3>יצירת קטע חדש</h3>
+        <ol>
+            <li>במסך הקטעים, לחץ <span class="button button-success">הוסף קטע</span></li>
+            <li>מספר הקטע יוקצה אוטומטית</li>
+            <li>מלא את הפרטים הנדרשים</li>
+        </ol>
+
+        <h4>פרטי קטע בסיסיים:</h4>
+        <ul>
+            <li><strong>מספר צנרת</strong> (ברירת מחדל: תאריך ושעה נוכחיים)</li>
+            <li><strong>תאריך ושעת תחילה</strong></li>
+            <li><strong>אורך משוער</strong> (במטרים)</li>
+            <li><strong>בור עליון ותחתון</strong></li>
+        </ul>
+
+        <h4>מאפייני צנרת:</h4>
+        <table>
+            <tr>
+                <th>מאפיין</th>
+                <th>אפשרויות</th>
+            </tr>
+            <tr>
+                <td>צורת צינור</td>
+                <td>עגול, ביצה, מרובע</td>
+            </tr>
+            <tr>
+                <td>קוטר</td>
+                <td>במילימטרים</td>
+            </tr>
+            <tr>
+                <td>חומר צינור</td>
+                <td>בטון, פלסטיק, מתכת וכו'</td>
+            </tr>
+            <tr>
+                <td>שימוש</td>
+                <td>מים (כחול), ביוב (אדום)</td>
+            </tr>
+        </table>
+
+        <h4>פרטי מיקום:</h4>
+        <ul>
+            <li><strong>רחוב, עיר, אתר</strong></li>
+            <li><strong>עומק התחלה וסיום</strong></li>
+            <li><strong>כיוון זרימה</strong></li>
+        </ul>
+
+        <h3>הוספת וידאו לקטע</h3>
+        <ol>
+            <li>במסך עריכת הקטע, לחץ <span class="button">בחר וידאו</span></li>
+            <li>בחר את קובץ הוידאו מהמחשב</li>
+            <li>הוידאו יוצג בנגן בחלק התחתון ימין</li>
+            <li>נתיב הקובץ נשמר במסד הנתונים</li>
+        </ol>
+
+        <hr>
+
+        <h2 id="event-recording">📝 רישום אירועים</h2>
+
+        <h3>הוספת אירוע חדש</h3>
+        <ol>
+            <li>בחר קטע ברשימת הקטעים</li>
+            <li>לחץ <span class="button button-success">הוסף אירוע</span> מתחת לטבלת המעקב</li>
+            <li>ייפתח חלון רישום אירוע עם שלושה חלקים</li>
+        </ol>
+
+        <h4>חלק א': בחירת קוד אירוע</h4>
+        <ul>
+            <li>רשימה ממוינת של כל קודי האירועים</li>
+            <li>שדה חיפוש למציאת קוד מהירה</li>
+            <li>תצוגה של: מספר קוד + סוג + תיאור</li>
+        </ul>
+
+        <h4>חלק ב': פרטי האירוע</h4>
+
+        <div class="warning-box">
+            <strong>שדות חובה לכל אירוע:</strong>
+            <ul>
+                <li><strong>מרחק בוידאו</strong> (במטרים מתחילת הקטע)</li>
+                <li><strong>זמן בוידאו</strong> (יתמלא אוטומטית מהנגן)</li>
+                <li><strong>חומרות</strong> (0-5)</li>
+                <li><strong>הערות</strong></li>
+            </ul>
+        </div>
+
+        <h4>שדות נוספים לפי סוג האירוע:</h4>
+
+        <table>
+            <tr>
+                <th>סוג אירוע</th>
+                <th>שדות נוספים</th>
+            </tr>
+            <tr>
+                <td><strong>אירועי מבנה</strong><br>(סדקים, שברים)</td>
+                <td>
+                    • שעון התחלה וסיום<br>
+                    • אורך ורוחב הליקוי
+                </td>
+            </tr>
+            <tr>
+                <td><strong>אירועי תפעול ותחזוקה</strong></td>
+                <td>
+                    • אורך הליקוי<br>
+                    • אחוזי חסימה<br>
+                    • מקור הבעיה
+                </td>
+            </tr>
+            <tr>
+                <td><strong>אירועי צומת</strong></td>
+                <td>
+                    • שעון הצומת<br>
+                    • רוחב הצומת<br>
+                    • פעיל/לא פעיל
+                </td>
+            </tr>
+        </table>
+
+        <h4>חלק ג': נגן וידאו</h4>
+        <ul>
+            <li>נגן משולב לצפייה בזמן רישום האירוע</li>
+            <li>כפתור צילום מסך לשמירת תמונה</li>
+            <li>התמונה שמורה במסד הנתונים</li>
+        </ul>
+
+        <h3>עריכת אירועים קיימים</h3>
+        <ol>
+            <li>לחץ פעמיים על אירוע ברשימת המעקב</li>
+            <li>ערוך את הפרטים הנדרשים</li>
+            <li>לחץ <span class="button button-success">שמור</span></li>
+        </ol>
+
+        <hr>
+
+        <h2 id="video-viewing">🎥 צפייה בווידאו</h2>
+
+        <h3>נגן הוידאו המשולב כולל:</h3>
+        <ul>
+            <li><span class="button">הפעלה/השהיה</span></li>
+            <li><span class="button">חזרה 2 שניות אחורה</span></li>
+            <li><strong>סרגל ניווט</strong> לדילוג לזמן מסוים</li>
+            <li><strong>תצוגת זמן</strong> נוכחי וכולל</li>
+            <li><strong>מרחק מתצוגת הוידאו</strong> (פינה ימנית עליונה)</li>
+        </ul>
+
+        <h3>שימוש בנגן:</h3>
+        <ol>
+            <li>בחר קטע עם וידאו מרובץ</li>
+            <li>הוידאו יוטען אוטומטית במצב השהיה</li>
+            <li>השתמש בכפתורי הבקרה לניווט</li>
+        </ol>
+
+        <div class="info-box">
+            <strong>צפייה במסך מלא:</strong>
+            <ol>
+                <li>לחץ על כפתור <span class="button">מסך מלא</span> בנגן</li>
+                <li>הוידאו ייפתח בחלון נפרד</li>
+                <li>לחץ X לחזרה למסך הראשי</li>
+            </ol>
+        </div>
+
+        <h3>ניווט לאירועים:</h3>
+        <ul>
+            <li>בחירת אירוע מהרשימה תזיז את הוידאו לזמן האירוע</li>
+            <li>קו ירוק יופיע בגרף הצנרת במיקום האירוע</li>
+        </ul>
+
+        <hr>
+
+        <h2 id="report-generation">📄 יצירת דוחות</h2>
+
+        <h3>הפקת דוח PDF</h3>
+        <ol>
+            <li>במסך הפרויקט, לחץ <span class="button">הדפסה</span></li>
+            <li>המערכת תיצור דוח מקצועי</li>
+        </ol>
+
+        <h3>תוכן הדוח:</h3>
+
+        <table>
+            <tr>
+                <th>סוג עמוד</th>
+                <th>תוכן</th>
+            </tr>
+            <tr>
+                <td><strong>עמוד פתיחה</strong></td>
+                <td>פרטי הפרויקט הכלליים</td>
+            </tr>
+            <tr>
+                <td><strong>פרופיל קווי</strong></td>
+                <td>סיכום כל הקטעים לפי קוטר</td>
+            </tr>
+            <tr>
+                <td><strong>עמודי קטעים</strong></td>
+                <td>
+                    עמוד נפרד לכל קטע עם:<br>
+                    • פרטי הקטע המלאים<br>
+                    • גרף הצנרת עם סימון אירועים<br>
+                    • טבלת אירועים מפורטת
+                </td>
+            </tr>
+            <tr>
+                <td><strong>טבלת אירועים מלאה</strong></td>
+                <td>רשימה מפורטת של כל האירועים</td>
+            </tr>
+            <tr>
+                <td><strong>צילומי מסך</strong></td>
+                <td>כל התמונות שצולמו במהלך הבדיקה</td>
+            </tr>
+        </table>
+
+        <div class="info-box">
+            <strong>הדוח כולל:</strong>
+            <ul>
+                <li>תצוגה בעברית (מימין לשמאל)</li>
+                <li>לוגו החברה המבצעת</li>
+                <li>פרטי איש הקשר</li>
+                <li>דירוגי חומרה לכל אירוע</li>
+                <li>מידע טכני מפורט</li>
+            </ul>
+        </div>
+
+        <hr>
+
+        <h2 id="system-settings">⚙️ הגדרות מערכת</h2>
+
+        <h3>קבצי תצורה</h3>
+        <div class="info-box">
+            המערכת משתמשת בקבצי JSON לתצורה
+        </div>
+
+        <h4><code>config/config.json</code> - הגדרות כלליות:</h4>
+        <pre><code>{
+  "app_language": "he",
+  "default_date_format": "dd/mm/yyyy",
+  "video_extensions": [".mp4", ".avi", ".mov"],
+  "image_extensions": [".jpg", ".jpeg", ".png", ".bmp"]
+}</code></pre>
+
+        <h4><code>config/selection.json</code> - רשימות בחירה:</h4>
+        <ul>
+            <li>קודי אירועים ותיאוריהם</li>
+            <li>סוגי צינורות וחומרים</li>
+            <li>רמות חומרה</li>
+        </ul>
+
+        <h3>שינוי שפה</h3>
+        <ol>
+            <li>ערוך את <code>config/config.json</code></li>
+            <li>שנה את <code>app_language</code> ל-"en" (אנגלית) או "he" (עברית)</li>
+            <li>הפעל מחדש את התוכנה</li>
+        </ol>
+
+        <hr>
+
+        <h2 id="troubleshooting">🛠️ פתרון בעיות</h2>
+
+        <h3>בעיות נפוצות ופתרונות:</h3>
+
+        <div class="error-box">
+            <h4>🎥 הוידאו לא מתנגן:</h4>
+            <ul>
+                <li>ודא שקובץ הוידאו קיים במיקום המקורי</li>
+                <li>בדוק שפורמט הוידאו נתמך (.mp4, .avi, .mov)</li>
+                <li>נסה להזיז את הקובץ למיקום אחר ולעדכן בהגדרות הקטע</li>
+            </ul>
+        </div>
+
+        <div class="error-box">
+            <h4>💾 שגיאות במסד הנתונים:</h4>
+            <ul>
+                <li>ודא שיש הרשאות כתיבה לתיקיית התוכנה</li>
+                <li>בדוק שקובץ <code>pipes.db</code> לא פתוח בתוכנה אחרת</li>
+                <li>במקרה של קורפציה, השתמש בקובץ הגיבוי <code>pipes.db.backup_*</code></li>
+            </ul>
+        </div>
+
+        <div class="warning-box">
+            <h4>🔐 בעיות ברישיון:</h4>
+            <ul>
+                <li>ודא שהרישיון תקף ולא פג</li>
+                <li>בדוק חיבור לאינטרנט לוודא רישיון שנתי</li>
+                <li>צור קשר עם התמיכה לחידוש רישיון</li>
+            </ul>
+        </div>
+
+        <div class="error-box">
+            <h4>🖥️ בעיות תצוגה:</h4>
+            <ul>
+                <li>אם הטקסט מוצג הפוך, ודא שהשפה מוגדרת כ-"he"</li>
+                <li>במקרה של גופנים לא ברורים, ודא שקובץ <code>DejaVuSans.ttf</code> קיים</li>
+            </ul>
+        </div>
+
+        <div class="error-box">
+            <h4>🖨️ בעיות הדפסה:</h4>
+            <ul>
+                <li>ודא שכל הנתונים מלאים לפני יצירת הדוח</li>
+                <li>בדוק שיש מקום פנוי בדיסק לקובץ ה-PDF</li>
+                <li>נסה לסגור תוכנות אחרות שעשויות לחסום יצירת קבצים</li>
+            </ul>
+        </div>
+
+        <h3>קבלת תמיכה</h3>
+        <div class="info-box">
+            <strong>למקרה של בעיות שלא נפתרו:</strong>
+            <ol>
+                <li>צלם מסך של השגיאה</li>
+                <li>שמור את קובץ <code>app.log</code> (אם קיים)</li>
+                <li>צור קשר עם צוות התמיכה עם הפרטים הבאים:</li>
+                <ul>
+                    <li>תיאור הבעיה</li>
+                    <li>שלבים לשחזור הבעיה</li>
+                    <li>צילום מסך</li>
+                    <li>מזהה החומרה (Hardware ID)</li>
+                </ul>
+            </ol>
+        </div>
+
+        <hr>
+
+        <h3>📋 מידע טכני נוסף</h3>
+
+        <table>
+            <tr>
+                <th>מאפיין</th>
+                <th>פרטים</th>
+            </tr>
+            <tr>
+                <td><strong>גרסה</strong></td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <td><strong>מערכת הפעלה נתמכת</strong></td>
+                <td>Windows 10/11</td>
+            </tr>
+            <tr>
+                <td><strong>מעבד</strong></td>
+                <td>Intel/AMD 64-bit</td>
+            </tr>
+            <tr>
+                <td><strong>זיכרון</strong></td>
+                <td>4GB RAM מינימום</td>
+            </tr>
+            <tr>
+                <td><strong>מקום פנוי</strong></td>
+                <td>1GB</td>
+            </tr>
+            <tr>
+                <td><strong>רזולוציה</strong></td>
+                <td>1024x768 מינימום</td>
+            </tr>
+        </table>
+
+        <h4>פורמטי קבצים נתמכים:</h4>
+        <ul>
+            <li><strong>וידאו:</strong> MP4, AVI, MOV</li>
+            <li><strong>תמונות:</strong> JPG, PNG, BMP</li>
+            <li><strong>דוחות:</strong> PDF</li>
+        </ul>
+
+        <hr>
+
+        <div style="text-align: center; margin-top: 50px; padding: 20px; background: #ecf0f1; border-radius: 5px;">
+            <p><strong>מדריך זה עודכן לאחרונה:</strong> ספטמבר 2025</p>
+            <p><strong>לתמיכה טכנית:</strong> <a href="mailto:support@company.com">support@company.com</a></p>
+            <p><strong>© 2025 Pipeline Inspector - כל הזכויות שמורות</strong></p>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Highlight current section in navigation
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('h2[id]');
+            const navLinks = document.querySelectorAll('.toc a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
